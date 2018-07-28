@@ -8,12 +8,19 @@ arch=('i686' 'x86_64')
 url="https://github.com/axkibe/lsyncd"
 license=('GPL2')
 depends=('lua52' 'rsync')
-makedepends=('asciidoc' 'lua52' 'cmake')
+makedepends=('asciidoc' 'lua' 'cmake')
 source=("https://github.com/axkibe/lsyncd/archive/release-$pkgver.tar.gz"
-	    "lsyncd.service")
+        'lsyncd.service'
+        'FindLua.cmake.patch')
 
 sha256sums=('7bcd0f4ae126040bb078c482ff856c87e61c22472c23fa3071798dcb1dc388dd'
-            '538072a4505abbdf8c4d16c9200810d4a2253f892a71fc16b5cd7f35ebe1ae57')
+            '538072a4505abbdf8c4d16c9200810d4a2253f892a71fc16b5cd7f35ebe1ae57'
+            '2a60c2bfecc4be3a2e22182f6fb05748d9033454bd19c0c64cd300f74251f91c')
+
+prepare() {
+    cd $pkgname-release-$pkgver
+    patch -Np1 -i "${srcdir}/FindLua.cmake.patch"
+}
 
 build() {
     cd $srcdir/$pkgname-release-$pkgver
